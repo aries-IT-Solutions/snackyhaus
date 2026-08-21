@@ -1,348 +1,433 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snacky Haus – Frisch. Gesund. Schnell.</title>
-<link rel="icon" href="logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #0a0c08;
-    --bg-2: #10130c;
-    --card: #151810;
-    --line: rgba(245,245,240,0.10);
-    --ink: #f5f5f0;
-    --ink-dim: #a8ad9d;
-    --lime: #9ede3e;
-    --lime-dim: #6f9a2f;
-    --lime-deep: #4c7a20;
-  }
-
-  *{ box-sizing: border-box; }
-  html{ scroll-behavior: smooth; }
-
-  body{
-    margin:0;
-    min-height:100svh;
-    background:
-      radial-gradient(120% 90% at 15% -10%, rgba(158,222,62,0.10), transparent 55%),
-      radial-gradient(120% 90% at 90% 110%, rgba(158,222,62,0.07), transparent 55%),
-      var(--bg);
-    color: var(--ink);
-    font-family: 'Manrope', sans-serif;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 28px 18px;
-    position:relative;
-    overflow-x:hidden;
-  }
-
-  /* subtle grain */
-  body::before{
-    content:"";
-    position:fixed; inset:0;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, transparent 1px, transparent 2px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px);
-    pointer-events:none;
-    z-index:0;
-  }
-
-  .lang-switch{
-    position:fixed;
-    top: 22px;
-    right: 22px;
-    z-index: 20;
-    display:flex;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 4px;
-    backdrop-filter: blur(6px);
-  }
-  .lang-switch button{
-    appearance:none;
-    border:none;
-    background:transparent;
-    color: var(--ink-dim);
-    font-family:'Manrope',sans-serif;
-    font-weight:700;
-    font-size: 12.5px;
-    letter-spacing: .04em;
-    padding: 7px 14px;
-    border-radius: 999px;
-    cursor:pointer;
-    transition: all .2s ease;
-  }
-  .lang-switch button.active{
-    background: var(--lime);
-    color: #0a0c08;
-  }
-  .lang-switch button:not(.active):hover{ color: var(--ink); }
-
-  .stage{
-    position:relative;
-    z-index:1;
-    width:100%;
-    max-width: 480px;
-    text-align:center;
-  }
-
-  .badge-row{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    margin-bottom: 22px;
-    opacity: 0;
-    animation: rise .7s .05s ease forwards;
-  }
-  .badge-row .dot{
-    width:5px; height:5px; border-radius:50%;
-    background: var(--lime);
-    box-shadow: 0 0 10px var(--lime);
-  }
-  .badge-row span{
-    text-transform: uppercase;
-    font-size: 11.5px;
-    letter-spacing: .22em;
-    color: var(--ink-dim);
-    font-weight: 700;
-  }
-
-  .logo-wrap{
-    opacity:0;
-    animation: rise .7s .15s ease forwards;
-    margin-bottom: 22px;
-    display:flex;
-    justify-content:center;
-  }
-  .logo-wrap img{
-    width: 168px;
-    height:auto;
-    filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55));
-  }
-
-  .tagline{
-    font-family:'Anton', sans-serif;
-    font-weight:400;
-    text-transform: uppercase;
-    line-height: 0.98;
-    font-size: clamp(30px, 8vw, 44px);
-    letter-spacing: 0.01em;
-    margin: 0 0 6px;
-    opacity:0;
-    animation: rise .7s .25s ease forwards;
-  }
-  .tagline .w1{ color: var(--ink); }
-  .tagline .w2{ color: var(--ink); }
-  .tagline .w3{ color: var(--lime); }
-
-  .brushline{
-    width: 210px;
-    height: 14px;
-    margin: 6px auto 26px;
-    opacity:0;
-    animation: rise .7s .32s ease forwards;
-  }
-  .brushline svg{ width:100%; height:100%; display:block; }
-
-  .address{
-    opacity:0;
-    animation: rise .7s .4s ease forwards;
-    margin: 0 auto 30px;
-    max-width: 340px;
-  }
-  .address .pin{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    color: var(--lime);
-    font-weight:800;
-    font-size: 12px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    margin-bottom: 8px;
-  }
-  .address .pin svg{ width:13px; height:13px; }
-  .address p{
-    margin:0;
-    color: var(--ink-dim);
-    font-size: 15px;
-    line-height:1.55;
-  }
-  .address a{
-    color: var(--ink);
-    text-decoration:none;
-    border-bottom: 1px solid var(--lime-dim);
-  }
-  .address a:hover{ border-color: var(--lime); }
-
-  .cta{
-    opacity:0;
-    animation: rise .7s .5s ease forwards;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:12px;
-  }
-
-  .menu-btn{
-    appearance:none;
-    border:none;
-    cursor:pointer;
-    font-family:'Anton', sans-serif;
-    font-weight:400;
-    text-transform:uppercase;
-    letter-spacing: .04em;
-    font-size: 19px;
-    color:#0a0c08;
-    background: var(--lime);
-    padding: 18px 40px;
-    border-radius: 14px;
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    box-shadow: 0 14px 30px -8px rgba(158,222,62,0.45), inset 0 -3px 0 rgba(0,0,0,0.18);
-    transition: transform .18s ease, box-shadow .18s ease;
-  }
-  .menu-btn svg{ width:20px; height:20px; flex-shrink:0; }
-  .menu-btn:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px -8px rgba(158,222,62,0.55), inset 0 -3px 0 rgba(0,0,0,0.18);
-  }
-  .menu-btn:active{ transform: translateY(0px) scale(.98); }
-
-  .hint{
-    color: var(--ink-dim);
-    font-size: 12.5px;
-    letter-spacing: .02em;
-  }
-
-  .footer{
-    margin-top: 40px;
-    padding-top: 22px;
-    border-top: 1px solid var(--line);
-    opacity:0;
-    animation: rise .7s .6s ease forwards;
-  }
-  .footer span{
-    color: var(--ink-dim);
-    font-size: 11px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-  }
-
-  @keyframes rise{
-    from{ opacity:0; transform: translateY(14px); }
-    to{ opacity:1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .badge-row,.logo-wrap,.tagline,.brushline,.address,.cta,.footer{
-      animation: none !important; opacity:1 !important; transform:none !important;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snacky Haus – Frisch. Gesund. Schnell.</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0c08;
+      --bg-2: #10130c;
+      --card: #151810;
+      --line: rgba(245, 245, 240, 0.10);
+      --ink: #f5f5f0;
+      --ink-dim: #a8ad9d;
+      --lime: #9ede3e;
+      --lime-dim: #6f9a2f;
+      --lime-deep: #4c7a20;
     }
-  }
 
-  [data-lang]{ display:none; }
-  html[data-active="de"] [data-lang="de"]{ display:inline; }
-  html[data-active="en"] [data-lang="en"]{ display:inline; }
-  html[data-active="de"] p[data-lang="de"],
-  html[data-active="en"] p[data-lang="en"]{ display:block; }
-</style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background:
+        radial-gradient(120% 90% at 15% -10%, rgba(158, 222, 62, 0.10), transparent 55%),
+        radial-gradient(120% 90% at 90% 110%, rgba(158, 222, 62, 0.07), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 18px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* subtle grain */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0px, transparent 1px, transparent 2px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0px, transparent 1px, transparent 2px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .lang-switch {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 20;
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px;
+      backdrop-filter: blur(6px);
+    }
+
+    .lang-switch button {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--ink-dim);
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 12.5px;
+      letter-spacing: .04em;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .lang-switch button.active {
+      background: var(--lime);
+      color: #0a0c08;
+    }
+
+    .lang-switch button:not(.active):hover {
+      color: var(--ink);
+    }
+
+    .stage {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: rise .7s .05s ease forwards;
+    }
+
+    .badge-row .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 10px var(--lime);
+    }
+
+    .badge-row span {
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: .22em;
+      color: var(--ink-dim);
+      font-weight: 700;
+    }
+
+    .logo-wrap {
+      opacity: 0;
+      animation: rise .7s .15s ease forwards;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-wrap img {
+      width: 168px;
+      height: auto;
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
+    }
+
+    .tagline {
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      line-height: 0.98;
+      font-size: clamp(30px, 8vw, 44px);
+      letter-spacing: 0.01em;
+      margin: 0 0 6px;
+      opacity: 0;
+      animation: rise .7s .25s ease forwards;
+    }
+
+    .tagline .w1 {
+      color: var(--ink);
+    }
+
+    .tagline .w2 {
+      color: var(--ink);
+    }
+
+    .tagline .w3 {
+      color: var(--lime);
+    }
+
+    .brushline {
+      width: 210px;
+      height: 14px;
+      margin: 6px auto 26px;
+      opacity: 0;
+      animation: rise .7s .32s ease forwards;
+    }
+
+    .brushline svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .address {
+      opacity: 0;
+      animation: rise .7s .4s ease forwards;
+      margin: 0 auto 30px;
+      max-width: 340px;
+    }
+
+    .address .pin {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--lime);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .address .pin svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .address p {
+      margin: 0;
+      color: var(--ink-dim);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .address a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--lime-dim);
+    }
+
+    .address a:hover {
+      border-color: var(--lime);
+    }
+
+    .cta {
+      opacity: 0;
+      animation: rise .7s .5s ease forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-size: 19px;
+      color: #0a0c08;
+      background: var(--lime);
+      padding: 18px 40px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 14px 30px -8px rgba(158, 222, 62, 0.45), inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .menu-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .menu-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px -8px rgba(158, 222, 62, 0.55), inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .menu-btn:active {
+      transform: translateY(0px) scale(.98);
+    }
+
+    .hint {
+      color: var(--ink-dim);
+      font-size: 12.5px;
+      letter-spacing: .02em;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      opacity: 0;
+      animation: rise .7s .6s ease forwards;
+    }
+
+    .footer span {
+      color: var(--ink-dim);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .badge-row,
+      .logo-wrap,
+      .tagline,
+      .brushline,
+      .address,
+      .cta,
+      .footer {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    [data-lang] {
+      display: none;
+    }
+
+    html[data-active="de"] [data-lang="de"] {
+      display: inline;
+    }
+
+    html[data-active="en"] [data-lang="en"] {
+      display: inline;
+    }
+
+    html[data-active="de"] p[data-lang="de"],
+    html[data-active="en"] p[data-lang="en"] {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="lang-switch" role="group" aria-label="Sprache wählen">
-  <button type="button" data-set-lang="de" class="active">DE</button>
-  <button type="button" data-set-lang="en">EN</button>
-</div>
-
-<main class="stage">
-
-  <div class="badge-row">
-    <span class="dot"></span>
-    <span data-lang="de">Des Vertrauens</span>
-    <span data-lang="en">Trusted Since Day One</span>
-    <span class="dot"></span>
+  <div class="lang-switch" role="group" aria-label="Sprache wählen">
+    <button type="button" data-set-lang="de" class="active">DE</button>
+    <button type="button" data-set-lang="en">EN</button>
   </div>
 
-  <div class="logo-wrap">
-    <img src="logo.png" alt="Snacky Haus Logo">
-  </div>
+  <main class="stage">
 
-  <h1 class="tagline">
-    <span class="w1" data-lang="de">Frisch.</span><span class="w1" data-lang="en">Fresh.</span><br>
-    <span class="w2" data-lang="de">Gesund.</span><span class="w2" data-lang="en">Healthy.</span>
-    <span class="w3" data-lang="de">Schnell.</span><span class="w3" data-lang="en">Fast.</span>
-  </h1>
-
-  <div class="brushline">
-    <svg viewBox="0 0 210 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 9C40 3 90 2 105 6C120 10 165 4 207 7" stroke="#9ede3e" stroke-width="5" stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <div class="address">
-    <div class="pin">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s7-7.16 7-12.5S16.42 2 12 2 5 4.66 5 9.5 12 22 12 22z" stroke="#9ede3e" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.6" stroke="#9ede3e" stroke-width="1.8"/></svg>
-      <span data-lang="de">Adresse</span>
-      <span data-lang="en">Address</span>
+    <div class="badge-row">
+      <span class="dot"></span>
+      <span data-lang="de">Des Vertrauens</span>
+      <span data-lang="en">Trusted Since Day One</span>
+      <span class="dot"></span>
     </div>
-    <p>
-      Musterstraße 1, 12345 Musterstadt<br>
-      <a href="tel:+490000000000">+49 00 000 000 00</a>
-    </p>
-  </div>
 
-  <div class="cta">
-    <button class="menu-btn" id="menuBtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3h9l3 3v15H6V3z" stroke="#0a0c08" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9h6M9 13h6M9 17h4" stroke="#0a0c08" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <span data-lang="de">Speisekarte ansehen</span>
-      <span data-lang="en">View Menu</span>
-    </button>
-    <span class="hint" data-lang="de">Öffnet als PDF in neuem Tab</span>
-    <span class="hint" data-lang="en">Opens as PDF in a new tab</span>
-  </div>
+    <div class="logo-wrap">
+      <img src="logo.png" alt="Snacky Haus Logo">
+    </div>
 
-  <div class="footer">
-    <span data-lang="de">Snacky Haus · Des Vertrauens</span>
-    <span data-lang="en">Snacky Haus · Trusted Since Day One</span>
-  </div>
+    <h1 class="tagline">
+      <span class="w1" data-lang="de">Frisch.</span><span class="w1" data-lang="en">Fresh.</span><br>
+      <span class="w2" data-lang="de">Gesund.</span><span class="w2" data-lang="en">Healthy.</span>
+      <span class="w3" data-lang="de">Schnell.</span><span class="w3" data-lang="en">Fast.</span>
+    </h1>
 
-</main>
+    <div class="brushline">
+      <svg viewBox="0 0 210 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9C40 3 90 2 105 6C120 10 165 4 207 7" stroke="#9ede3e" stroke-width="5" stroke-linecap="round" />
+      </svg>
+    </div>
 
-<script>
-  (function(){
-    var html = document.documentElement;
-    var buttons = document.querySelectorAll('[data-set-lang]');
-    setLang('de');
+    <div class="address">
+      <div class="pin">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22s7-7.16 7-12.5S16.42 2 12 2 5 4.66 5 9.5 12 22 12 22z" stroke="#9ede3e" stroke-width="1.8" />
+          <circle cx="12" cy="9.5" r="2.6" stroke="#9ede3e" stroke-width="1.8" />
+        </svg>
+        <span data-lang="de">Adresse</span>
+        <span data-lang="en">Address</span>
+      </div>
+      <p>
+        Musterstraße 1, 12345 Musterstadt<br>
+        <a href="tel:+490000000000">+49 00 000 000 00</a>
+      </p>
+    </div>
 
-    buttons.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        setLang(btn.getAttribute('data-set-lang'));
+    <div class="cta">
+      <button class="menu-btn" id="menuBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3h9l3 3v15H6V3z" stroke="#0a0c08" stroke-width="1.8" stroke-linejoin="round" />
+          <path d="M9 9h6M9 13h6M9 17h4" stroke="#0a0c08" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+        <span data-lang="de">Speisekarte ansehen</span>
+        <span data-lang="en">View Menu</span>
+      </button>
+    </div>
+
+    <div class="footer">
+      <span data-lang="de">Snacky Haus · Des Vertrauens</span>
+      <span data-lang="en">Snacky Haus · Trusted Since Day One</span>
+    </div>
+
+  </main>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+      var buttons = document.querySelectorAll('[data-set-lang]');
+      setLang('de');
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setLang(btn.getAttribute('data-set-lang'));
+        });
       });
+
+      function setLang(lang) {
+        html.setAttribute('data-active', lang);
+        html.setAttribute('lang', lang);
+        buttons.forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-set-lang') === lang);
+        });
+      }
+    })();
+
+    document.getElementById('menuBtn').addEventListener('click', function () {
+      var isPhone = window.matchMedia('(max-width: 768px)').matches;
+      var file = isPhone ? 'speisekarte-phone.jpg' : 'speisekarte-laptop.pdf';
+      window.open(file, '_blank');
     });
-
-    function setLang(lang){
-      html.setAttribute('data-active', lang);
-      html.setAttribute('lang', lang);
-      buttons.forEach(function(b){
-        b.classList.toggle('active', b.getAttribute('data-set-lang') === lang);
-      });
-    }
-  })();
-
-  document.getElementById('menuBtn').addEventListener('click', function(){
-    var isPhone = window.matchMedia('(max-width: 768px)').matches;
-    var file = isPhone ? 'speisekarte-phone.jpg' : 'speisekarte-laptop.pdf';
-    window.open(file, '_blank');
-  });
-</script>
+  </script>
 
 </body>
+
 </html>
