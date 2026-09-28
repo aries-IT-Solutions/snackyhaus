@@ -140,8 +140,9 @@
     }
 
     .logo-wrap img {
-      width: 168px;
+      width: min(240px, 62vw);
       height: auto;
+      display: block;
       filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
     }
 
@@ -222,6 +223,29 @@
 
     .address a:hover {
       border-color: var(--lime);
+    }
+
+    .location-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 13px;
+      padding: 10px 16px;
+      border: 1px solid var(--lime-dim);
+      border-radius: 999px;
+      color: var(--ink) !important;
+      background: rgba(158, 222, 62, 0.06);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .location-link:hover {
+      background: rgba(158, 222, 62, 0.12);
+      border-color: var(--lime);
+      transform: translateY(-1px);
     }
 
     .cta {
@@ -376,10 +400,12 @@
         <span data-lang="de">Adresse</span>
         <span data-lang="en">Address</span>
       </div>
-      <p>
-        Musterstraße 1, 12345 Musterstadt<br>
-        <a href="tel:+490000000000">+49 00 000 000 00</a>
-      </p>
+      <p data-lang="de">Bellheim · gegenüber Lidl / Firma Lutz</p>
+      <p data-lang="en">Bellheim · opposite Lidl / Lutz company</p>
+      <a class="location-link" href="https://maps.app.goo.gl/ZJaF8NZAULeVVwuJ7?g_st=aw" target="_blank" rel="noopener noreferrer">
+        <span data-lang="de">Standort in Google Maps öffnen</span>
+        <span data-lang="en">Open location in Google Maps</span>
+      </a>
     </div>
 
     <div class="cta">
