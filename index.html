@@ -208,6 +208,17 @@
       height: 13px;
     }
 
+    .address-label-link {
+      color: var(--lime) !important;
+      text-decoration: none !important;
+      border-bottom: 1px solid transparent !important;
+      transition: border-color .18s ease;
+    }
+
+    .address-label-link:hover {
+      border-bottom-color: var(--lime) !important;
+    }
+
     .address p {
       margin: 0;
       color: var(--ink-dim);
@@ -397,15 +408,14 @@
           <path d="M12 22s7-7.16 7-12.5S16.42 2 12 2 5 4.66 5 9.5 12 22 12 22z" stroke="#9ede3e" stroke-width="1.8" />
           <circle cx="12" cy="9.5" r="2.6" stroke="#9ede3e" stroke-width="1.8" />
         </svg>
-        <span data-lang="de">Adresse</span>
-        <span data-lang="en">Address</span>
+        <a class="address-label-link" href="https://maps.app.goo.gl/ZJaF8NZAULeVVwuJ7?g_st=aw" target="_blank" rel="noopener noreferrer">
+          <span data-lang="de">Adresse</span>
+          <span data-lang="en">Address</span>
+        </a>
       </div>
       <p data-lang="de">Bellheim · gegenüber Lidl / Firma Lutz</p>
       <p data-lang="en">Bellheim · opposite Lidl / Lutz company</p>
-      <a class="location-link" href="https://maps.app.goo.gl/ZJaF8NZAULeVVwuJ7?g_st=aw" target="_blank" rel="noopener noreferrer">
-        <span data-lang="de">Standort in Google Maps öffnen</span>
-        <span data-lang="en">Open location in Google Maps</span>
-      </a>
+
     </div>
 
     <div class="cta">
