@@ -476,9 +476,7 @@
     })();
 
     document.getElementById('menuBtn').addEventListener('click', function () {
-      var isPhone = window.matchMedia('(max-width: 768px)').matches;
-      var file = isPhone ? 'speisekarte-phone.jpg' : 'speisekarte-laptop.pdf';
-      window.open(file, '_blank');
+      window.open('speisekarte-laptop.pdf', '_blank');
     });
   </script>
 
